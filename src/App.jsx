@@ -19,13 +19,7 @@ function App() {
             <Heading as="h1">The Wild Oasis</Heading>
             <div>
               <Heading as="h2">Check in/out</Heading>
-              <Button
-                variation="primary"
-                size="medium"
-                onClick={() => console.log("1")}
-              >
-                check in
-              </Button>
+              <Button onClick={() => console.log("1")}>check in</Button>
               <Button
                 variation="secondary"
                 size="small"
