@@ -11,7 +11,7 @@ import FormRow from "../../ui/FormRow";
 
 function CreateCabinForm() {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, formState, getValues } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
 
   const { mutate, isLoading: isCreating } = useMutation({
     mutationFn: (newCabin) => createCabin(newCabin),
@@ -28,7 +28,7 @@ function CreateCabinForm() {
   const { errors } = formState;
 
   function onSubmit(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(errors) {
@@ -41,36 +41,40 @@ function CreateCabinForm() {
         <Input
           type="text"
           id="name"
+          disabled={isCreating}
           {...register("name", {
             required: "This field is required",
           })}
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.name?.message}>
+      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
+          disabled={isCreating}
           {...register("maxCapacity", {
             required: "This field is required",
           })}
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.name?.message}>
+      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
         <Input
           type="number"
           id="regularPrice"
+          disabled={isCreating}
           {...register("regularPrice", {
             required: "This field is required",
           })}
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.name?.message}>
+      <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
+          disabled={isCreating}
           {...register("discount", {
             required: "This field is required",
           })}
@@ -78,10 +82,14 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow label="Description for website" error={errors?.name?.message}>
+      <FormRow
+        label="Description for website"
+        error={errors?.description?.message}
+      >
         <Textarea
           type="number"
           id="description"
+          disabled={isCreating}
           defaultValue=""
           {...register("description", {
             required: "This field is required",
@@ -89,8 +97,14 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow label="Cabin photo" error={errors?.name?.message}>
-        <FileInput id="image" accept="image/*" />
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
