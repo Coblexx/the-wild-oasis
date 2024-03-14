@@ -11,14 +11,9 @@ import FormRow from "../../ui/FormRow";
 
 import { createEditCabin } from "../../services/apiCabins";
 
-function CreateCabinForm({ cabin = {} }) {
-  const { id: editId, ...editValues } = cabin;
-  const isEditSession = Boolean(editId);
-
+function CreateCabinForm({ cabin }) {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+  const { register, handleSubmit, reset, formState } = useForm();
 
   const { mutate: createCabin, isLoading: isCreating } = useMutation({
     mutationFn: (newCabin) => createEditCabin(newCabin),
@@ -49,11 +44,8 @@ function CreateCabinForm({ cabin = {} }) {
   const isWorking = isEditing || isCreating;
 
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-
-    if (isEditSession)
-      editCabin({ newCabinData: { ...data, image }, id: editId });
-    else createCabin({ ...data, image: image });
+    if (isEditing) editCabin();
+    createCabin({ ...data, image: data.image[0] });
   }
 
   function onError(errors) {
@@ -127,7 +119,7 @@ function CreateCabinForm({ cabin = {} }) {
           id="image"
           accept="image/*"
           {...register("image", {
-            required: isEditSession ? false : "This field is required",
+            required: "This field is required",
           })}
         />
       </FormRow>
@@ -137,9 +129,7 @@ function CreateCabinForm({ cabin = {} }) {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isWorking}>
-          {isEditSession ? "Edit cabin" : "Create cabin"}
-        </Button>
+        <Button disabled={isWorking}>Create cabin</Button>
       </FormRow>
     </Form>
   );
