@@ -8,7 +8,7 @@ import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 
 import { useCreateCabin } from "./useCreateCabin";
-import { useEditCabin } from "./useEditCabin";
+import { useEditCabin } from "./useUpdateCabin";
 
 function CreateCabinForm({ cabin = {} }) {
   const isEditSession = Boolean(editId);
