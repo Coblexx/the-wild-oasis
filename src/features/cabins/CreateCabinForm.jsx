@@ -11,10 +11,10 @@ import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useUpdateCabin";
 
 function CreateCabinForm({ cabin = {} }) {
-  const isEditSession = Boolean(editId);
   const { id: editId, ...editValues } = cabin;
   const { createCabin, isCreating } = useCreateCabin();
   const { editCabin, isEditing } = useEditCabin();
+  const isEditSession = Boolean(editId);
 
   const { register, handleSubmit, reset, formState } = useForm({
     defaultValues: isEditSession ? editValues : {},
