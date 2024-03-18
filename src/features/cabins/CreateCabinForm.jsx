@@ -29,7 +29,7 @@ function CreateCabinForm({ cabin = {}, onCloseModal }) {
 
     if (isEditSession)
       editCabin(
-        { newCabinData: { ...data, image }, id: editId },
+        { newCabin: { ...data, image }, id: editId },
         {
           onSuccess: () => {
             reset();
